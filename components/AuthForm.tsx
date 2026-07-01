@@ -39,7 +39,10 @@ const AuthForm = ({ type }: { type: Formtype }) => {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form space-y-8">
+        <h1 className="form-title">
+          {type === "sign-in" ? "Sign In" : "Sign Up"}
+        </h1>
         <FormField
             control={form.control}
             name="email"
