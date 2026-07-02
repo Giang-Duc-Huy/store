@@ -1,6 +1,7 @@
 "use client";
 
 import { z } from "zod";
+import { createAccount } from "../lib/actions/user.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import OTPModal from "./OTPModal";
 
 const formSchema = z.object({
     email: z.string().email({
@@ -35,7 +37,16 @@ const AuthForm = ({ type }: { type: Formtype }) => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    setIsLoading(true);
+
+    try {
+      const user = createAccount({ name: values.email, email: values.email });
+
+      setAccountId(user.accountId);
+    } catch {
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
   }
   return (
     <Form {...form}>
@@ -78,7 +89,18 @@ const AuthForm = ({ type }: { type: Formtype }) => {
         </Button>
       </form>
     </Form>
+
+    {setAccountId && (<OTPModal email ={form.getValues("email")}
+    accountId={setAccountId} />
   )
 }
 
 export default AuthForm
+function setIsLoading(arg0: boolean) {
+  throw new Error("Function not implemented.");
+}
+
+function setAccountId(user: Promise<void>) {
+  throw new Error("Function not implemented.");
+}
+
